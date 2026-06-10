@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -532,15 +533,25 @@
     function formatRawNumber(num) { if (isNaN(num)) num = 0; return num.toFixed(2); }
     function showNotification(msg, success=true) { const n = document.createElement('div'); n.className = 'toast-notification'; n.style.background = success ? '#059669' : '#dc2626'; n.innerText = msg; document.body.appendChild(n); setTimeout(() => n.remove(), 2500); }
     
-    // Impression robuste
+    // Impression robuste sans popup (iframe)
     function printContent(htmlContent) {
-      const printWindow = window.open('', '_blank', 'width=800,height=600,toolbar=yes,scrollbars=yes');
-      if (!printWindow) { alert("Impossible d'ouvrir la fenêtre d'impression. Autorisez les popups."); return; }
-      printWindow.document.open();
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.onload = function() { setTimeout(() => printWindow.print(), 300); };
+      // Créer un iframe invisible
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'absolute';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(htmlContent);
+      doc.close();
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      // Supprimer l'iframe après l'impression (avec un délai pour permettre l'impression)
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
     }
     
     // ==================== DONNÉES PRINCIPALES ====================
@@ -665,12 +676,12 @@
           <td>${t.cashier}</td>
           <td>${t.bank}</td>
           <td>${t.currency}</td>
-          <td>${getActionLabel(t)}</td>
-          <td>${formatNumber(t.amount)}</td>
-          <td>${t.quantity || 1}</td>
-          <td>${formatNumber(t.commissionG||0)} G</td>
-          <td>${formatNumber(t.commissionUSD||0)} USD</td>
-          <td>${t.bureau||'—'}</td>
+          <td>${getActionLabel(t)}</div></td>
+          <td>${formatNumber(t.amount)}</div></td>
+          <td>${t.quantity || 1}</div></td>
+          <td>${formatNumber(t.commissionG||0)} G</div></td>
+          <td>${formatNumber(t.commissionUSD||0)} USD</div></td>
+          <td>${t.bureau||'—'}</div></td>
         `;
       });
     }
@@ -762,7 +773,7 @@
           <td>${formatNumber(t.commissionG||0)} G</div></td>
           <td>${formatNumber(t.commissionUSD||0)} USD</div></td>
           <td>${t.bureau||'—'}</div></td>
-          <td><button class="btn btn-small btn-outline" onclick="editTransaction(${t.id})">Modifier</button></div></tr>
+          <td><button class="btn btn-small btn-outline" onclick="editTransaction(${t.id})">Modifier</button></div></td>
         `;
       });
       
@@ -911,8 +922,8 @@
       let balance = 0, idx = 1, html = '';
       for(let e of entries) {
         if(e.type === 'loan') { balance += e.amount; html += `<tr>
-          <td>${idx++}</td>
-          <td>${e.date}</td>
+          <td>${idx++}</div></td>
+          <td>${e.date}</div></td>
           <td>${formatNumber(e.amount)}</div></td>
           <td>—</div></td>
           <td>${formatNumber(balance)}</div></tr>`;
@@ -997,13 +1008,13 @@
         <p><strong>Téléphone:</strong> ${creditor.phone}</p>
         <p><strong>Adresse:</strong> ${creditor.address || '—'}</p>
         <h3>Historique des prêts (${currency})</h3>
-        <table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;"><tr><th>Date</th><th>Montant emprunté</th><th>Remboursé</th><th>Balance</th></table>`;
+        <table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;"><tr><th>Date</th><th>Montant emprunté</th><th>Remboursé</th><th>Balance</th></tr>`;
       loans.forEach(loan => {
         const payments = creditorPayments.filter(p => p.loanId === loan.id);
         let paid = payments.reduce((s,p)=>s+p.amount,0);
         let balance = loan.amount - paid;
         html += `<tr>
-          <td>${loan.date}</td>
+          <td>${loan.date}</div></td>
           <td>${formatNumber(loan.amount)}</div></td>
           <td>${formatNumber(paid)}</div></td>
           <td>${formatNumber(balance)}</div></tr>`;
