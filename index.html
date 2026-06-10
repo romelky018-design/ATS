@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -339,7 +338,6 @@
       border-left: 3px solid var(--primary);
       padding-left: 12px;
     }
-    /* Nouveau style pour le résumé à deux colonnes */
     .stats-summary-row {
       display: flex;
       gap: 24px;
@@ -533,25 +531,22 @@
     function formatRawNumber(num) { if (isNaN(num)) num = 0; return num.toFixed(2); }
     function showNotification(msg, success=true) { const n = document.createElement('div'); n.className = 'toast-notification'; n.style.background = success ? '#059669' : '#dc2626'; n.innerText = msg; document.body.appendChild(n); setTimeout(() => n.remove(), 2500); }
     
-    // Impression robuste sans popup (iframe)
+    // Impression avec aperçu (fenêtre popup)
     function printContent(htmlContent) {
-      // Créer un iframe invisible
-      const iframe = document.createElement('iframe');
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = 'none';
-      document.body.appendChild(iframe);
-      const doc = iframe.contentWindow.document;
-      doc.open();
-      doc.write(htmlContent);
-      doc.close();
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-      // Supprimer l'iframe après l'impression (avec un délai pour permettre l'impression)
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 1000);
+      // Ouvrir une nouvelle fenêtre avec le contenu à imprimer
+      const printWindow = window.open('', '_blank', 'width=900,height=700,toolbar=yes,scrollbars=yes,menubar=yes,resizable=yes');
+      if (!printWindow) {
+        alert("Impossible d'ouvrir la fenêtre d'impression. Veuillez autoriser les popups pour ce site.");
+        return;
+      }
+      printWindow.document.open();
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      printWindow.focus();
+      // Attendre que le contenu soit chargé pour lancer l'impression
+      printWindow.onload = function() {
+        printWindow.print();
+      };
     }
     
     // ==================== DONNÉES PRINCIPALES ====================
