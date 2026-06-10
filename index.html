@@ -531,23 +531,46 @@
     function formatRawNumber(num) { if (isNaN(num)) num = 0; return num.toFixed(2); }
     function showNotification(msg, success=true) { const n = document.createElement('div'); n.className = 'toast-notification'; n.style.background = success ? '#059669' : '#dc2626'; n.innerText = msg; document.body.appendChild(n); setTimeout(() => n.remove(), 2500); }
     
-    // Impression avec iframe invisible pour éviter les popups et afficher l'aperçu
+    // Impression avec iframe visible pour permettre l'aperçu
     function printContent(htmlContent) {
+      // Créer un iframe visible en overlay
       const iframe = document.createElement('iframe');
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = 'none';
+      iframe.style.position = 'fixed';
+      iframe.style.top = '10%';
+      iframe.style.left = '10%';
+      iframe.style.width = '80%';
+      iframe.style.height = '80%';
+      iframe.style.zIndex = '10000';
+      iframe.style.backgroundColor = 'white';
+      iframe.style.border = '2px solid #ccc';
+      iframe.style.borderRadius = '8px';
+      iframe.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
       document.body.appendChild(iframe);
+      
       const doc = iframe.contentWindow.document;
       doc.open();
       doc.write(htmlContent);
       doc.close();
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
+      
+      // Attendre que le contenu soit chargé puis lancer l'impression
+      iframe.onload = function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        // Supprimer l'iframe après l'impression (avec un délai pour laisser le temps à l'utilisateur de voir l'aperçu)
+        setTimeout(() => {
+          if (document.body.contains(iframe)) document.body.removeChild(iframe);
+        }, 2000);
+      };
+      // Pour certains navigateurs, on déclenche directement
       setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 1000);
+        if (iframe.contentWindow) {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+          setTimeout(() => {
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+          }, 2000);
+        }
+      }, 500);
     }
     
     // ==================== DONNÉES PRINCIPALES ====================
@@ -694,11 +717,9 @@
       if (bureauFilter) results = results.filter(t => t.bureau === bureauFilter);
       if (keyword) results = results.filter(t => t.cashier.toLowerCase().includes(keyword) || t.bank.toLowerCase().includes(keyword) || (t.bureau && t.bureau.toLowerCase().includes(keyword)) || (t.currency && t.currency.toLowerCase().includes(keyword)));
       
-      // Séparer Unibank et autres pour les stats
       const unibankTrans = results.filter(t => t.bank === 'Unibank tt kote');
       const otherTransfers = results.filter(t => t.bank !== 'Unibank tt kote');
       
-      // Calculs pour "Autres maisons de transfert" (avec Payé/Expédié)
       let otherIncoming = { Gourde: { qty: 0, amount: 0 }, USD: { qty: 0, amount: 0 } };
       let otherOutgoing = { Gourde: { qty: 0, amount: 0 }, USD: { qty: 0, amount: 0 } };
       otherTransfers.forEach(t => {
@@ -711,7 +732,6 @@
         else if (isOutgoing) { otherOutgoing[currency].qty += qty; otherOutgoing[currency].amount += amount; }
       });
       
-      // Calculs pour Unibank (avec Dépôt/Retrait)
       let unibankIncoming = { Gourde: { qty: 0, amount: 0 }, USD: { qty: 0, amount: 0 } };
       let unibankOutgoing = { Gourde: { qty: 0, amount: 0 }, USD: { qty: 0, amount: 0 } };
       unibankTrans.forEach(t => {
@@ -724,7 +744,6 @@
         else if (isOutgoing) { unibankOutgoing[currency].qty += qty; unibankOutgoing[currency].amount += amount; }
       });
       
-      // Génération du résumé à deux colonnes
       const summaryHtml = `
         <div><strong>${results.length} transaction(s) trouvée(s)</strong></div>
         <div class="stats-summary-row">
@@ -749,7 +768,6 @@
         </div>
       `;
       
-      // Affichage du tableau unique avec toutes les transactions
       const allBody = document.getElementById('allTransfersBody');
       allBody.innerHTML = '';
       if (results.length === 0) {
