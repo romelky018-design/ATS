@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ───────── RESET & BASE (unchanged) ───────── */
+        /* ───────── RESET & BASE ───────── */
         *,
         *::before,
         *::after {
@@ -155,7 +154,7 @@
         }
         .topbar h1 { font-size: 1.6rem; font-weight: 700; color: var(--gray-900); }
         .topbar h1 small { font-size: 0.9rem; font-weight: 400; color: var(--gray-400); margin-left: 8px; }
-        .topbar-actions { display: flex; align-items: center; gap: 12px; }
+        .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .topbar-actions .date-badge {
             background: #fff;
             padding: 6px 16px;
@@ -201,6 +200,8 @@
         .btn-outline:hover { background: var(--gray-100); }
         .btn-gold { background: #f5a623; color: #fff; border-color: #f5a623; }
         .btn-gold:hover { background: #d98e1c; border-color: #d98e1c; }
+        .btn-hold { background: #f59e0b; color: #fff; border-color: #f59e0b; }
+        .btn-hold:hover { background: #d97706; border-color: #d97706; }
 
         /* ───────── STAT CARDS ───────── */
         .stats-grid {
@@ -580,11 +581,11 @@
         .pos-total-row {
             display: flex;
             justify-content: space-between;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 6px;
         }
-        .pos-total-row .total-amount { color: var(--primary); }
+        .pos-total-row .total-amount { color: var(--primary); font-size: 1.6rem; }
         .pos-customer-row {
             display: flex;
             gap: 10px;
@@ -615,6 +616,70 @@
             border: 1px solid var(--gray-200);
             font-size: 0.8rem;
             background: #fff;
+        }
+        .pos-change-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        .pos-change-row label { font-weight: 500; font-size: 0.78rem; color: var(--gray-600); }
+        .pos-change-row input {
+            flex: 1;
+            min-width: 100px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+            font-size: 0.8rem;
+        }
+        .pos-change-row .change-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--success);
+            min-width: 60px;
+        }
+        .pos-actions-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        /* ─── HOLD / ATTENTE ───────── */
+        .holds-container {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .hold-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        .hold-item:hover { background: var(--gray-100); }
+        .hold-item .hold-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .hold-item .hold-info .hold-name {
+            font-weight: 600;
+        }
+        .hold-item .hold-info .hold-detail {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+        }
+        .hold-item .hold-actions {
+            display: flex;
+            gap: 4px;
         }
 
         /* ───────── CREDIT ───────── */
@@ -677,6 +742,39 @@
         .accounting-card .value { font-size: 1.4rem; font-weight: 700; color: var(--gray-900); margin-top: 2px; }
         .accounting-card .value.positive { color: var(--success); }
         .accounting-card .value.negative { color: var(--danger); }
+
+        .capital-section {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .capital-section .capital-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .capital-section .capital-info .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--gray-400);
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        .capital-section .capital-info .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        .capital-section .capital-actions {
+            display: flex;
+            gap: 8px;
+        }
 
         .profit-item-grid {
             display: grid;
@@ -898,6 +996,8 @@
             .rapport-stats { grid-template-columns: 1fr 1fr; }
             .rapport-filters { flex-direction: column; align-items: stretch; }
             .rapport-filters .btn-group { justify-content: center; }
+            .capital-section { flex-direction: column; align-items: stretch; text-align: center; }
+            .capital-section .capital-actions { justify-content: center; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -925,6 +1025,7 @@
         .tag-purchase { background: #e0e7ff; color: #3730a3; }
         .tag-paid { background: #d1fae5; color: #065f46; }
         .tag-na { background: #e2e8f0; color: #475569; }
+        .tag-expense { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
@@ -936,7 +1037,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <i class="fas fa-cubes"></i>
-            InventoryPro <span>v7</span>
+            InventoryPro <span>v9</span>
         </div>
         <nav class="sidebar-nav">
             <a class="active" data-view="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
@@ -969,6 +1070,7 @@
             </div>
             <div class="topbar-actions">
                 <span class="date-badge"><i class="far fa-calendar-alt"></i> <span id="todayDate"></span></span>
+                <button class="btn btn-danger btn-sm" id="expenseBtn"><i class="fas fa-money-bill-wave"></i> Dépense</button>
                 <button class="btn btn-primary btn-sm" id="calculatorBtn"><i class="fas fa-calculator"></i> Calculatrice</button>
                 <button class="btn btn-success btn-sm" id="quickAddBtn"><i class="fas fa-plus"></i> Quick Add</button>
             </div>
@@ -1072,9 +1174,18 @@
                                         <span>Total</span>
                                         <span class="total-amount" id="posTotalAmount">0 G</span>
                                     </div>
-                                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                    <div class="pos-change-row">
+                                        <label><i class="fas fa-hand-holding-usd"></i> Montant reçu</label>
+                                        <input type="number" id="posAmountReceived" placeholder="0.00" step="0.01" min="0" />
+                                        <span style="font-weight:500;">Rendu:</span>
+                                        <span class="change-amount" id="posChangeDisplay">0 G</span>
+                                    </div>
+                                    <div class="pos-actions-row">
                                         <button class="btn btn-success" id="posFinalizeBtn" style="flex:1;">
                                             <i class="fas fa-check-circle"></i> Finaliser
+                                        </button>
+                                        <button class="btn btn-hold" id="posHoldBtn">
+                                            <i class="fas fa-pause-circle"></i> Attente
                                         </button>
                                         <button class="btn btn-outline" id="posClearCartBtn">
                                             <i class="fas fa-trash"></i> Vider
@@ -1082,6 +1193,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Affichage des clients en attente -->
+                            <div id="holdsContainer" class="holds-container" style="margin-top:12px;"></div>
                         </div>
                     </div>
                 </div>
@@ -1279,7 +1392,7 @@
             <div class="panel">
                 <div class="panel-header">
                     <h3><i class="fas fa-calculator"></i> Comptabilité & Analyse</h3>
-                    <span style="font-size:0.75rem;color:var(--gray-400);">bénéfice / perte</span>
+                    <span style="font-size:0.75rem;color:var(--gray-400);">bilan et résultats</span>
                 </div>
                 <div class="panel-body">
                     <div class="rapport-filters" style="margin-bottom:20px;">
@@ -1294,26 +1407,42 @@
                         <button class="btn btn-sm btn-primary" id="accountingApplyFilter"><i class="fas fa-sync"></i> Appliquer</button>
                         <button class="btn btn-sm btn-outline" id="accountingResetFilter"><i class="fas fa-undo"></i> Réinitialiser</button>
                     </div>
+
                     <div class="accounting-summary" id="accountingSummary">
-                        <div class="accounting-card"><div class="label">Revenu total</div><div class="value positive" id="accRevenue">0 G</div></div>
-                        <div class="accounting-card"><div class="label">Coût d'achat (COGS)</div><div class="value" id="accCogs">0 G</div></div>
-                        <div class="accounting-card"><div class="label">Bénéfice brut</div><div class="value positive" id="accGrossProfit">0 G</div></div>
-                        <div class="accounting-card"><div class="label">Bénéfice net (mois)</div><div class="value positive" id="accNetProfit">0 G</div></div>
-                        <div class="accounting-card"><div class="label">Dépôt</div><div class="value" id="accDepot">0 G</div></div>
-                        <div class="accounting-card"><div class="label">Capital</div><div class="value" id="accCapital">0 G</div></div>
-                    </div>
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;background:var(--gray-50);padding:12px 16px;border-radius:8px;border:1px solid var(--gray-200);">
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <label style="font-weight:600;font-size:0.8rem;">Dépôt:</label>
-                            <input type="number" id="inputDepot" step="0.01" style="width:120px;padding:4px 8px;border-radius:6px;border:1px solid var(--gray-200);" />
-                            <button class="btn btn-sm btn-primary" id="updateDepotBtn"><i class="fas fa-save"></i> Mettre à jour</button>
+                        <div class="accounting-card">
+                            <div class="label">Actif (caisse)</div>
+                            <div class="value positive" id="accActif">0 G</div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <label style="font-weight:600;font-size:0.8rem;">Capital:</label>
-                            <input type="number" id="inputCapital" step="0.01" style="width:120px;padding:4px 8px;border-radius:6px;border:1px solid var(--gray-200);" />
-                            <button class="btn btn-sm btn-primary" id="updateCapitalBtn"><i class="fas fa-save"></i> Mettre à jour</button>
+                        <div class="accounting-card">
+                            <div class="label">Passif (crédits)</div>
+                            <div class="value" id="accPassif">0 G</div>
+                        </div>
+                        <div class="accounting-card">
+                            <div class="label">Capitaux propres</div>
+                            <div class="value positive" id="accCapitauxPropres">0 G</div>
+                        </div>
+                        <div class="accounting-card">
+                            <div class="label">Bénéfice net</div>
+                            <div class="value positive" id="accBeneficeNet">0 G</div>
+                        </div>
+                        <div class="accounting-card">
+                            <div class="label">Bénéfice brut</div>
+                            <div class="value positive" id="accBeneficeBrut">0 G</div>
                         </div>
                     </div>
+
+                    <!-- Section Capital -->
+                    <div class="capital-section">
+                        <div class="capital-info">
+                            <span class="label"><i class="fas fa-coins"></i> Capital total</span>
+                            <span class="value" id="accCapitalTotal">0 G</span>
+                        </div>
+                        <div class="capital-actions">
+                            <input type="number" id="capitalInput" placeholder="Montant" step="0.01" min="0" style="width:140px;padding:6px 12px;border-radius:8px;border:1px solid var(--gray-200);font-size:0.85rem;" />
+                            <button class="btn btn-primary" id="capitalAddBtn"><i class="fas fa-arrow-right"></i> Entrer</button>
+                        </div>
+                    </div>
+
                     <div style="background:var(--gray-50);border-radius:10px;padding:16px;border:1px solid var(--gray-200);margin-bottom:20px;">
                         <h4 style="font-size:0.9rem;margin-bottom:8px;"><i class="fas fa-chart-pie"></i> Analyse rapide</h4>
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;font-size:0.85rem;">
@@ -1343,6 +1472,7 @@
                             </div>
                         </div>
                     </div>
+
                     <h4 style="font-size:0.9rem;margin-bottom:8px;"><i class="fas fa-tags"></i> Profit par article</h4>
                     <div id="profitPerItemContainer" class="profit-item-grid">
                         <div class="empty-state" style="padding:20px;"><i class="fas fa-chart-simple"></i><p>Aucune donnée de vente.</p></div>
@@ -1375,6 +1505,8 @@
                                 <option value="sale">Vente</option>
                                 <option value="credit">Crédit</option>
                                 <option value="purchase">Achat</option>
+                                <option value="expense">Dépense</option>
+                                <option value="capital">Capital</option>
                             </select>
                         </div>
                         <button class="btn btn-primary btn-sm" id="histApplyFilters"><i class="fas fa-search"></i> Filtrer</button>
@@ -1457,6 +1589,36 @@
                 <div class="form-actions" style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--gray-100);">
                     <button type="button" class="btn btn-outline" id="quickAddCancel">Annuler</button>
                     <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Expense Modal -->
+    <div class="modal-overlay" id="expenseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-money-bill-wave" style="color:var(--danger);margin-right:8px;"></i> Ajouter une dépense</h2>
+                <button class="modal-close" id="expenseModalClose">&times;</button>
+            </div>
+            <form id="expenseForm">
+                <div class="form-grid" style="grid-template-columns:1fr;">
+                    <div class="form-group">
+                        <label>Détails de la dépense *</label>
+                        <input type="text" id="expenseDetails" required placeholder="Ex: Achat fournitures, électricité, etc." />
+                    </div>
+                    <div class="form-group">
+                        <label>Montant (G) *</label>
+                        <input type="number" id="expenseAmount" step="0.01" min="0.01" required placeholder="0.00" />
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="expenseDate" />
+                    </div>
+                </div>
+                <div class="form-actions" style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--gray-100);">
+                    <button type="button" class="btn btn-outline" id="expenseCancel">Annuler</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-save"></i> Enregistrer la dépense</button>
                 </div>
             </form>
         </div>
@@ -1624,17 +1786,19 @@
         const STORAGE_PROVIDERS = 'inventoryPro_providers';
         const STORAGE_PURCHASES = 'inventoryPro_purchases';
         const STORAGE_SHIFT = 'inventoryPro_shift';
-        const STORAGE_DEPOT = 'inventoryPro_depot';
         const STORAGE_CAPITAL = 'inventoryPro_capital';
+        const STORAGE_EXPENSES = 'inventoryPro_expenses';
+        const STORAGE_HOLDS = 'inventoryPro_holds';
 
         let items = [];
         let sales = [];
         let credits = [];
         let providers = [];
         let purchases = [];
+        let expenses = [];
+        let capitalTotal = 0;
         let shiftData = { current: 'Matin', lastSend: null, sentSales: [] };
-        let depot = 0;
-        let capital = 0;
+        let holds = []; // [{id, customerName, cart, total, date}]
 
         // ─── Items ──────────────────────────────────────────────────────
         function loadItems() {
@@ -1762,28 +1926,11 @@
                 ref: data.ref || '',
                 notes: data.notes || '',
                 salesIds: data.salesIds || [],
-                payments: [] // [{amount, date, notes}]
+                payments: []
             };
             credits.unshift(newCredit);
             saveCredits();
             return newCredit;
-        }
-
-        function addPaymentToCredit(creditId, paymentAmount, notes) {
-            const credit = credits.find(c => c.id === creditId);
-            if (!credit) return null;
-            const remaining = credit.amount - credit.paidAmount;
-            if (paymentAmount > remaining) return null;
-            credit.paidAmount += paymentAmount;
-            credit.payments = credit.payments || [];
-            credit.payments.push({ amount: paymentAmount, date: new Date().toISOString(), notes: notes || '' });
-            if (credit.paidAmount >= credit.amount) {
-                credit.status = 'paid';
-            } else {
-                credit.status = 'partial';
-            }
-            saveCredits();
-            return credit;
         }
 
         function getTotalOutstanding() { return credits.filter(c => c.status !== 'paid').reduce((sum, c) => sum + (c.amount - c
@@ -1813,6 +1960,186 @@
                 }
             });
             return total;
+        }
+
+        // ─── Capital ────────────────────────────────────────────────────
+        function loadCapital() {
+            try { capitalTotal = parseFloat(localStorage.getItem(STORAGE_CAPITAL)) || 0; } catch { capitalTotal = 0; }
+        }
+
+        function saveCapital() { localStorage.setItem(STORAGE_CAPITAL, capitalTotal.toString()); }
+
+        function addCapital(amount) {
+            capitalTotal += amount;
+            saveCapital();
+            // Record in history as capital entry
+            addHistoryEntry('capital', 'Capital', 'Ajout de capital', amount);
+            return capitalTotal;
+        }
+
+        // ─── Expenses ──────────────────────────────────────────────────
+        function loadExpenses() {
+            try { const raw = localStorage.getItem(STORAGE_EXPENSES);
+                expenses = raw ? JSON.parse(raw) : []; } catch { expenses = []; }
+            expenses = expenses.filter(e => e && typeof e === 'object');
+            saveExpenses();
+        }
+
+        function saveExpenses() { localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses)); }
+
+        function addExpense(data) {
+            const newExpense = {
+                id: generateId(),
+                date: data.date || new Date().toISOString(),
+                details: data.details.trim(),
+                amount: parseFloat(data.amount) || 0
+            };
+            expenses.unshift(newExpense);
+            saveExpenses();
+            // Record in history
+            addHistoryEntry('expense', 'Dépense', data.details.trim(), -parseFloat(data.amount));
+            return newExpense;
+        }
+
+        // ─── Holds (Attente) ────────────────────────────────────────────
+        function loadHolds() {
+            try { const raw = localStorage.getItem(STORAGE_HOLDS);
+                holds = raw ? JSON.parse(raw) : []; } catch { holds = []; }
+            holds = holds.filter(h => h && typeof h === 'object');
+            saveHolds();
+        }
+
+        function saveHolds() { localStorage.setItem(STORAGE_HOLDS, JSON.stringify(holds)); }
+
+        function addHold(customerName, cart) {
+            const hold = {
+                id: generateId(),
+                customerName: customerName || 'Client·e',
+                cart: cart.map(c => ({ ...c })),
+                total: cart.reduce((sum, c) => sum + c.price * c.quantity, 0),
+                date: new Date().toISOString()
+            };
+            holds.unshift(hold);
+            saveHolds();
+            return hold;
+        }
+
+        function removeHold(holdId) {
+            holds = holds.filter(h => h.id !== holdId);
+            saveHolds();
+        }
+
+        function getHold(holdId) { return holds.find(h => h.id === holdId) || null; }
+
+        // ─── History entries ────────────────────────────────────────────
+        let historyEntries = [];
+
+        function addHistoryEntry(type, label, detail, amount) {
+            const entry = {
+                id: generateId(),
+                date: new Date().toISOString(),
+                type: type,
+                label: label,
+                detail: detail,
+                amount: amount,
+                customer: ''
+            };
+            historyEntries.unshift(entry);
+            // Also save to a separate history storage
+            saveHistory();
+            return entry;
+        }
+
+        function saveHistory() {
+            localStorage.setItem('inventoryPro_history', JSON.stringify(historyEntries));
+        }
+
+        function loadHistory() {
+            try { const raw = localStorage.getItem('inventoryPro_history');
+                historyEntries = raw ? JSON.parse(raw) : []; } catch { historyEntries = []; }
+            // Also add existing sales, credits, purchases to history if not already there
+            // This is a one-time migration - we'll just sync on load
+            syncHistory();
+        }
+
+        function syncHistory() {
+            // We'll rebuild history from existing data
+            const existingIds = new Set(historyEntries.map(e => e.id));
+
+            // Add sales
+            sales.forEach(s => {
+                if (!existingIds.has(s.id)) {
+                    const label = s.type === 'credit' ? 'Vente à crédit' : 'Vente';
+                    const detail = s.items.map(i => `${i.quantity}× ${i.name}`).join(', ');
+                    historyEntries.push({
+                        id: s.id,
+                        date: s.date,
+                        type: 'sale',
+                        label: label,
+                        detail: detail,
+                        amount: s.total,
+                        customer: s.customerName || 'Client·e'
+                    });
+                    existingIds.add(s.id);
+                }
+            });
+
+            // Add credits
+            credits.forEach(c => {
+                if (!existingIds.has(c.id)) {
+                    const remaining = c.amount - c.paidAmount;
+                    const label = c.status === 'paid' ? 'Crédit payé ✓' : 'Crédit';
+                    historyEntries.push({
+                        id: c.id,
+                        date: c.date,
+                        type: 'credit',
+                        label: label,
+                        detail: c.ref || '',
+                        amount: c.status === 'paid' ? c.amount : remaining,
+                        customer: c.clientName
+                    });
+                    existingIds.add(c.id);
+                }
+            });
+
+            // Add purchases
+            purchases.forEach(p => {
+                if (!existingIds.has(p.id)) {
+                    const detail = p.items.map(i => `${i.quantity}× ${i.name}`).join(', ');
+                    historyEntries.push({
+                        id: p.id,
+                        date: p.date,
+                        type: 'purchase',
+                        label: 'Achat',
+                        detail: detail,
+                        amount: -p.total,
+                        customer: p.providerName
+                    });
+                    existingIds.add(p.id);
+                }
+            });
+
+            // Add expenses
+            expenses.forEach(e => {
+                if (!existingIds.has(e.id)) {
+                    historyEntries.push({
+                        id: e.id,
+                        date: e.date,
+                        type: 'expense',
+                        label: 'Dépense',
+                        detail: e.details,
+                        amount: -e.amount,
+                        customer: ''
+                    });
+                    existingIds.add(e.id);
+                }
+            });
+
+            // Add capital entries - we'll track them separately
+            // We'll add a special entry for capital if not exists
+            // We'll use a special ID for capital
+
+            saveHistory();
         }
 
         // ─── Providers ──────────────────────────────────────────────────
@@ -1913,37 +2240,51 @@
             renderCaisseSalesList();
         }
 
-        // ─── Depot & Capital ────────────────────────────────────────────
-        function loadDepotCapital() {
-            try {
-                depot = parseFloat(localStorage.getItem(STORAGE_DEPOT)) || 0;
-                capital = parseFloat(localStorage.getItem(STORAGE_CAPITAL)) || 0;
-            } catch { depot = 0;
-                capital = 0; }
+        // ─── Accounting helpers ─────────────────────────────────────────
+        function getActif() {
+            return sales.filter(s => s.type === 'cash').reduce((sum, s) => sum + s.total, 0);
         }
 
-        function saveDepot() { localStorage.setItem(STORAGE_DEPOT, depot.toString()); }
+        function getPassif() {
+            return getTotalOutstanding();
+        }
 
-        function saveCapital() { localStorage.setItem(STORAGE_CAPITAL, capital.toString()); }
+        function getCapitauxPropres() {
+            return getActif() + getPassif();
+        }
 
-        // ─── Accounting ──────────────────────────────────────────────────
-        function getTotalRevenue() { return sales.reduce((sum, s) => sum + s.total, 0); }
+        function getBeneficeNet() {
+            const totalRevenue = sales.reduce((sum, s) => sum + s.total, 0);
+            let totalCost = 0;
+            sales.forEach(s => {
+                s.items.forEach(item => {
+                    totalCost += (item.cost_price || 0) * item.quantity;
+                });
+            });
+            return totalRevenue - totalCost;
+        }
 
-        function getRevenueInDateRange(from, to) {
+        function getBeneficeBrut() {
+            // Bénéfice brut = Bénéfice net - Dépenses totales
+            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            return getBeneficeNet() - totalExpenses;
+        }
+
+        function getSalesInRange(from, to) {
             return sales.filter(s => {
                 const d = new Date(s.date);
                 const dateStr = d.toISOString().split('T')[0];
                 return dateStr >= from && dateStr <= to;
-            }).reduce((sum, s) => sum + s.total, 0);
+            });
+        }
+
+        function getRevenueInDateRange(from, to) {
+            return getSalesInRange(from, to).reduce((sum, s) => sum + s.total, 0);
         }
 
         function getCogsInDateRange(from, to) {
             let cogs = 0;
-            sales.filter(s => {
-                const d = new Date(s.date);
-                const dateStr = d.toISOString().split('T')[0];
-                return dateStr >= from && dateStr <= to;
-            }).forEach(s => {
+            getSalesInRange(from, to).forEach(s => {
                 s.items.forEach(item => {
                     cogs += (item.cost_price || 0) * item.quantity;
                 });
@@ -1951,23 +2292,23 @@
             return cogs;
         }
 
-        function getMonthlyRevenue() {
-            const now = new Date();
-            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-            const from = monthStart.toISOString().split('T')[0];
-            const to = now.toISOString().split('T')[0];
-            return getRevenueInDateRange(from, to);
+        function getProfitPerItemRange(from, to) {
+            const map = {};
+            getSalesInRange(from, to).forEach(s => {
+                s.items.forEach(item => {
+                    if (!map[item.name]) map[item.name] = { name: item.name, sku: item.sku || '', totalRevenue: 0,
+                        totalCost: 0, quantity: 0 };
+                    map[item.name].totalRevenue += item.price * item.quantity;
+                    map[item.name].totalCost += (item.cost_price || 0) * item.quantity;
+                    map[item.name].quantity += item.quantity;
+                });
+            });
+            return Object.values(map).map(i => ({
+                ...i,
+                profit: i.totalRevenue - i.totalCost,
+                margin: i.totalRevenue > 0 ? (i.totalRevenue - i.totalCost) / i.totalRevenue * 100 : 0
+            }));
         }
-
-        function getMonthlyCogs() {
-            const now = new Date();
-            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-            const from = monthStart.toISOString().split('T')[0];
-            const to = now.toISOString().split('T')[0];
-            return getCogsInDateRange(from, to);
-        }
-
-        function getMonthlyProfit() { return getMonthlyRevenue() - getMonthlyCogs(); }
 
         function getProfitPerItem() {
             const map = {};
@@ -2035,9 +2376,11 @@
             renderAccounting();
             renderHistorique();
             renderRapports();
+            renderHolds();
             updateSidebarBadge();
             updateCreditBadge();
             updateShiftUI();
+            updateChangeDisplay();
         }
 
         // ─── Stats ──────────────────────────────────────────────────────
@@ -2060,7 +2403,7 @@
             document.getElementById('statTodayCount').textContent = getTodayCount() + ' transactions';
             document.getElementById('statCreditTotal').textContent = formatCurrency(getTotalOutstanding());
             document.getElementById('statCreditCount').textContent = getOutstandingClientCount() + ' clients';
-            document.getElementById('statMonthlyProfit').textContent = formatCurrency(getMonthlyProfit());
+            document.getElementById('statMonthlyProfit').textContent = formatCurrency(getBeneficeNet());
         }
 
         // ─── Inventory Table ────────────────────────────────────────────
@@ -2241,12 +2584,14 @@
             }
             renderPosCart();
             renderPosInventory();
+            updateChangeDisplay();
             showToast(`${item.name} ajouté.`, 'success');
         }
 
         function removeFromCart(itemId) { cart = cart.filter(c => c.itemId !== itemId);
             renderPosCart();
-            renderPosInventory(); }
+            renderPosInventory();
+            updateChangeDisplay(); }
 
         function updateCartQty(itemId, newQty) {
             const entry = cart.find(c => c.itemId === itemId);
@@ -2254,12 +2599,14 @@
             const item = getItem(itemId);
             if (!item) { cart = cart.filter(c => c.itemId !== itemId);
                 renderPosCart();
-                renderPosInventory(); return; }
+                renderPosInventory();
+                updateChangeDisplay(); return; }
             if (newQty <= 0) { removeFromCart(itemId); return; }
             if (item.track_quantity && newQty > item.quantity) { showToast(`Stock max: ${item.quantity}`, 'error'); return; }
             entry.quantity = newQty;
             renderPosCart();
             renderPosInventory();
+            updateChangeDisplay();
         }
 
         function renderPosCart() {
@@ -2308,7 +2655,70 @@
             document.getElementById('caisseTodayCount').textContent = getTodayCount() + ' ventes';
         }
 
-        // ─── Ventes récentes : afficher 5 puis "voir plus" ─────────────
+        // ─── Holds ──────────────────────────────────────────────────────
+        function renderHolds() {
+            const container = document.getElementById('holdsContainer');
+            if (holds.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = `
+                <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px;color:var(--gray-600);">
+                    <i class="fas fa-pause-circle"></i> Clients en attente (${holds.length})
+                </div>
+                ${holds.map(h => `
+                    <div class="hold-item">
+                        <div class="hold-info">
+                            <span class="hold-name">${escapeHtml(h.customerName)}</span>
+                            <span class="hold-detail">${h.cart.length} articles · ${formatCurrency(h.total)}</span>
+                            <span class="hold-detail" style="font-size:0.65rem;color:var(--gray-400);">${getShortDate(h.date)}</span>
+                        </div>
+                        <div class="hold-actions">
+                            <button class="btn btn-sm btn-success resume-hold-btn" data-id="${h.id}"><i class="fas fa-arrow-right"></i> Reprendre</button>
+                            <button class="btn btn-sm btn-danger remove-hold-btn" data-id="${h.id}"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+            container.querySelectorAll('.resume-hold-btn').forEach(b => {
+                b.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    resumeHold(id);
+                });
+            });
+            container.querySelectorAll('.remove-hold-btn').forEach(b => {
+                b.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    if (confirm('Supprimer ce client de la liste d\'attente ?')) {
+                        removeHold(id);
+                        renderAll();
+                        showToast('Client retiré de l\'attente.', 'success');
+                    }
+                });
+            });
+        }
+
+        function resumeHold(holdId) {
+            const hold = getHold(holdId);
+            if (!hold) { showToast('Client introuvable.', 'error'); return; }
+            // If current cart is not empty, ask if they want to save it
+            if (cart.length > 0) {
+                if (!confirm('Le panier actuel sera remplacé par celui du client en attente. Continuer ?')) {
+                    return;
+                }
+            }
+            // Restore cart from hold
+            cart = hold.cart.map(c => ({ ...c }));
+            // Remove hold
+            removeHold(holdId);
+            renderAll();
+            showToast(`Client ${hold.customerName} récupéré.`, 'success');
+            renderPosCart();
+            renderPosInventory();
+            updateChangeDisplay();
+        }
+
+        // ─── Ventes récentes ─────────────────────────────────────────────
         let salesShowCount = 5;
 
         function renderCaisseSalesList() {
@@ -2360,6 +2770,41 @@
             }
         }
 
+        // ─── Change display ─────────────────────────────────────────────
+        function updateChangeDisplay() {
+            const total = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+            const received = parseFloat(document.getElementById('posAmountReceived').value) || 0;
+            const change = received - total;
+            const changeEl = document.getElementById('posChangeDisplay');
+            if (change >= 0) {
+                changeEl.textContent = formatCurrency(change);
+                changeEl.style.color = 'var(--success)';
+            } else {
+                changeEl.textContent = '-' + formatCurrency(Math.abs(change));
+                changeEl.style.color = 'var(--danger)';
+            }
+        }
+
+        document.getElementById('posAmountReceived').addEventListener('input', updateChangeDisplay);
+
+        // ─── Hold button ─────────────────────────────────────────────────
+        document.getElementById('posHoldBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                showToast('Le panier est vide. Ajoutez des articles d\'abord.', 'error');
+                return;
+            }
+            const customerName = document.getElementById('posCustomerName').value.trim() || 'Client·e';
+            addHold(customerName, cart);
+            cart = [];
+            document.getElementById('posCustomerName').value = '';
+            document.getElementById('posAmountReceived').value = '';
+            renderAll();
+            showToast(`Client ${customerName} mis en attente.`, 'success');
+            renderPosCart();
+            renderPosInventory();
+            updateChangeDisplay();
+        });
+
         // ─── Finalize Sale ──────────────────────────────────────────────
         function finalizeSale() {
             if (cart.length === 0) { showToast('Le panier est vide.', 'error'); return; }
@@ -2372,6 +2817,14 @@
                 }
             }
             const paymentType = document.getElementById('posPaymentType').value;
+            const total = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+            if (paymentType === 'cash') {
+                const received = parseFloat(document.getElementById('posAmountReceived').value) || 0;
+                if (received < total) {
+                    showToast(`Montant reçu (${formatCurrency(received)}) insuffisant pour le total (${formatCurrency(total)})`, 'error');
+                    return;
+                }
+            }
             const customerName = document.getElementById('posCustomerName').value.trim();
 
             for (const c of cart) {
@@ -2383,7 +2836,6 @@
             }
             saveItems();
 
-            const total = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
             let creditId = null;
 
             if (paymentType === 'credit') {
@@ -2418,6 +2870,7 @@
 
             cart = [];
             document.getElementById('posCustomerName').value = '';
+            document.getElementById('posAmountReceived').value = '';
             renderAll();
             showToast(`Vente finalisée: ${formatCurrency(total)}`, 'success');
             renderPosCart();
@@ -2426,6 +2879,7 @@
             renderCaisseSalesList();
             updateSidebarBadge();
             updateCreditBadge();
+            updateChangeDisplay();
         }
 
         // ─── Credit ──────────────────────────────────────────────────────
@@ -2650,28 +3104,19 @@
         function renderAccounting() {
             const from = document.getElementById('accountingDateFrom').value;
             const to = document.getElementById('accountingDateTo').value;
-            let revenue, cogs, grossProfit, netProfit, revenueCash, revenueCredit;
 
             if (from && to) {
-                revenue = getRevenueInDateRange(from, to);
-                cogs = getCogsInDateRange(from, to);
-                grossProfit = revenue - cogs;
-                netProfit = grossProfit;
-                const monthlyRevenue = revenue;
-                const monthlyCogs = cogs;
-                const monthlyProfit = grossProfit;
-                document.getElementById('accQuickSales').textContent = formatCurrency(monthlyRevenue);
-                document.getElementById('accQuickCost').textContent = formatCurrency(monthlyCogs);
-                document.getElementById('accQuickProfit').textContent = formatCurrency(monthlyProfit);
-                const margin = monthlyRevenue > 0 ? (monthlyProfit / monthlyRevenue * 100) : 0;
+                const revenue = getRevenueInDateRange(from, to);
+                const cogs = getCogsInDateRange(from, to);
+                const profit = revenue - cogs;
+                const margin = revenue > 0 ? (profit / revenue * 100) : 0;
+                document.getElementById('accQuickSales').textContent = formatCurrency(revenue);
+                document.getElementById('accQuickCost').textContent = formatCurrency(cogs);
+                document.getElementById('accQuickProfit').textContent = formatCurrency(profit);
                 document.getElementById('accQuickMargin').textContent = margin.toFixed(1) + '%';
-                const salesInRange = sales.filter(s => {
-                    const d = new Date(s.date);
-                    const dateStr = d.toISOString().split('T')[0];
-                    return dateStr >= from && dateStr <= to;
-                });
-                revenueCash = salesInRange.filter(s => s.type === 'cash').reduce((sum, s) => sum + s.total, 0);
-                revenueCredit = salesInRange.filter(s => s.type === 'credit').reduce((sum, s) => sum + s.total, 0);
+                const salesInRange = getSalesInRange(from, to);
+                const revenueCash = salesInRange.filter(s => s.type === 'cash').reduce((sum, s) => sum + s.total, 0);
+                const revenueCredit = salesInRange.filter(s => s.type === 'credit').reduce((sum, s) => sum + s.total, 0);
                 document.getElementById('accRevenueCash').textContent = formatCurrency(revenueCash);
                 document.getElementById('accRevenueCredit').textContent = formatCurrency(revenueCredit);
                 const profitItems = getProfitPerItemRange(from, to);
@@ -2695,20 +3140,21 @@
                     }).join('');
                 }
             } else {
-                revenue = getMonthlyRevenue();
-                cogs = getMonthlyCogs();
-                grossProfit = revenue - cogs;
-                netProfit = grossProfit;
-                const monthlyRevenue = revenue;
-                const monthlyCogs = cogs;
-                const monthlyProfit = grossProfit;
-                document.getElementById('accQuickSales').textContent = formatCurrency(monthlyRevenue);
-                document.getElementById('accQuickCost').textContent = formatCurrency(monthlyCogs);
-                document.getElementById('accQuickProfit').textContent = formatCurrency(monthlyProfit);
-                const margin = monthlyRevenue > 0 ? (monthlyProfit / monthlyRevenue * 100) : 0;
+                const totalRevenue = sales.reduce((sum, s) => sum + s.total, 0);
+                let totalCost = 0;
+                sales.forEach(s => {
+                    s.items.forEach(item => {
+                        totalCost += (item.cost_price || 0) * item.quantity;
+                    });
+                });
+                const profit = totalRevenue - totalCost;
+                const margin = totalRevenue > 0 ? (profit / totalRevenue * 100) : 0;
+                document.getElementById('accQuickSales').textContent = formatCurrency(totalRevenue);
+                document.getElementById('accQuickCost').textContent = formatCurrency(totalCost);
+                document.getElementById('accQuickProfit').textContent = formatCurrency(profit);
                 document.getElementById('accQuickMargin').textContent = margin.toFixed(1) + '%';
-                revenueCash = sales.filter(s => s.type === 'cash').reduce((sum, s) => sum + s.total, 0);
-                revenueCredit = sales.filter(s => s.type === 'credit').reduce((sum, s) => sum + s.total, 0);
+                const revenueCash = sales.filter(s => s.type === 'cash').reduce((sum, s) => sum + s.total, 0);
+                const revenueCredit = sales.filter(s => s.type === 'credit').reduce((sum, s) => sum + s.total, 0);
                 document.getElementById('accRevenueCash').textContent = formatCurrency(revenueCash);
                 document.getElementById('accRevenueCredit').textContent = formatCurrency(revenueCredit);
                 const profitItems = getProfitPerItem();
@@ -2733,37 +3179,21 @@
                 }
             }
 
-            document.getElementById('accRevenue').textContent = formatCurrency(revenue);
-            document.getElementById('accCogs').textContent = formatCurrency(cogs);
-            document.getElementById('accGrossProfit').textContent = formatCurrency(grossProfit);
-            document.getElementById('accNetProfit').textContent = formatCurrency(netProfit);
-            document.getElementById('accDepot').textContent = formatCurrency(depot);
-            document.getElementById('accCapital').textContent = formatCurrency(capital);
+            // Bilan
+            const actif = getActif();
+            const passif = getPassif();
+            const capitauxPropres = getCapitauxPropres();
+            const beneficeNet = getBeneficeNet();
+            const beneficeBrut = getBeneficeBrut();
 
-            document.getElementById('inputDepot').value = depot;
-            document.getElementById('inputCapital').value = capital;
-        }
+            document.getElementById('accActif').textContent = formatCurrency(actif);
+            document.getElementById('accPassif').textContent = formatCurrency(passif);
+            document.getElementById('accCapitauxPropres').textContent = formatCurrency(capitauxPropres);
+            document.getElementById('accBeneficeNet').textContent = formatCurrency(beneficeNet);
+            document.getElementById('accBeneficeBrut').textContent = formatCurrency(beneficeBrut);
 
-        function getProfitPerItemRange(from, to) {
-            const map = {};
-            sales.filter(s => {
-                const d = new Date(s.date);
-                const dateStr = d.toISOString().split('T')[0];
-                return dateStr >= from && dateStr <= to;
-            }).forEach(s => {
-                s.items.forEach(item => {
-                    if (!map[item.name]) map[item.name] = { name: item.name, sku: item.sku || '', totalRevenue: 0,
-                        totalCost: 0, quantity: 0 };
-                    map[item.name].totalRevenue += item.price * item.quantity;
-                    map[item.name].totalCost += (item.cost_price || 0) * item.quantity;
-                    map[item.name].quantity += item.quantity;
-                });
-            });
-            return Object.values(map).map(i => ({
-                ...i,
-                profit: i.totalRevenue - i.totalCost,
-                margin: i.totalRevenue > 0 ? (i.totalRevenue - i.totalCost) / i.totalRevenue * 100 : 0
-            }));
+            // Capital
+            document.getElementById('accCapitalTotal').textContent = formatCurrency(capitalTotal);
         }
 
         // ─── Historique ──────────────────────────────────────────────────
@@ -2774,78 +3204,55 @@
             const tbody = document.getElementById('historiqueTableBody');
             const empty = document.getElementById('historiqueEmpty');
             const countEl = document.getElementById('historiqueCount');
-            let transactions = [];
-            sales.forEach(s => {
-                const d = new Date(s.date);
-                const dateStr = d.toISOString().split('T')[0];
-                if ((!from || dateStr >= from) && (!to || dateStr <= to)) {
-                    if (type === 'all' || type === 'sale') {
-                        const label = s.type === 'credit' ? 'Vente à crédit' : 'Vente';
-                        transactions.push({
-                            date: s.date,
-                            type: 'sale',
-                            label: label,
-                            customer: s.customerName || 'Client·e',
-                            detail: s.items.map(i => `${i.quantity}× ${i.name}`).join(', '),
-                            amount: s.total,
-                            typeTag: s.type === 'credit' ? 'credit' : 'cash'
-                        });
-                    }
-                }
-            });
-            credits.forEach(c => {
-                const d = new Date(c.date);
-                const dateStr = d.toISOString().split('T')[0];
-                if ((!from || dateStr >= from) && (!to || dateStr <= to)) {
-                    if (type === 'all' || type === 'credit') {
-                        const remaining = c.amount - c.paidAmount;
-                        const label = c.status === 'paid' ? 'Crédit payé ✓' : 'Crédit';
-                        transactions.push({
-                            date: c.date,
-                            type: 'credit',
-                            label: label,
-                            customer: c.clientName,
-                            detail: c.ref || '',
-                            amount: c.status === 'paid' ? c.amount : remaining,
-                            typeTag: 'credit'
-                        });
-                    }
-                }
-            });
-            purchases.forEach(p => {
-                const d = new Date(p.date);
-                const dateStr = d.toISOString().split('T')[0];
-                if ((!from || dateStr >= from) && (!to || dateStr <= to)) {
-                    if (type === 'all' || type === 'purchase') {
-                        transactions.push({
-                            date: p.date,
-                            type: 'purchase',
-                            label: 'Achat',
-                            customer: p.providerName,
-                            detail: p.items.map(i => `${i.quantity}× ${i.name}`).join(', '),
-                            amount: -p.total,
-                            typeTag: 'purchase'
-                        });
-                    }
-                }
-            });
-            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-            countEl.textContent = transactions.length + ' transactions';
-            if (transactions.length === 0) { tbody.innerHTML = '';
+
+            // Build from historyEntries
+            let filtered = historyEntries;
+
+            if (from || to) {
+                filtered = filtered.filter(e => {
+                    const d = new Date(e.date);
+                    const dateStr = d.toISOString().split('T')[0];
+                    return (!from || dateStr >= from) && (!to || dateStr <= to);
+                });
+            }
+
+            if (type !== 'all') {
+                filtered = filtered.filter(e => e.type === type);
+            }
+
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            countEl.textContent = filtered.length + ' transactions';
+
+            if (filtered.length === 0) { tbody.innerHTML = '';
                 empty.style.display = 'block'; return; }
             empty.style.display = 'none';
-            tbody.innerHTML = transactions.map(t => {
-                const tagClass = t.typeTag === 'cash' ? 'tag-cash' : t.typeTag === 'credit' ? 'tag-credit' :
-                    'tag-purchase';
-                const tagLabel = t.typeTag === 'cash' ? 'Espèces' : t.typeTag === 'credit' ? 'Crédit' : 'Achat';
-                const amountStr = t.amount < 0 ? formatCurrency(t.amount) : formatCurrency(t.amount);
-                const amountColor = t.amount < 0 ? 'var(--danger)' : 'var(--success)';
+
+            tbody.innerHTML = filtered.map(e => {
+                let tagClass = 'tag-cash';
+                let tagLabel = 'Vente';
+                let typeLabel = e.label || '';
+                if (e.type === 'credit') { tagClass = 'tag-credit';
+                    tagLabel = 'Crédit'; }
+                if (e.type === 'purchase') { tagClass = 'tag-purchase';
+                    tagLabel = 'Achat'; }
+                if (e.type === 'expense') { tagClass = 'tag-expense';
+                    tagLabel = 'Dépense'; }
+                if (e.type === 'capital') { tagClass = 'tag-paid';
+                    tagLabel = 'Capital'; }
+                if (e.type === 'sale') {
+                    tagClass = e.amount >= 0 ? 'tag-cash' : 'tag-credit';
+                    tagLabel = e.amount >= 0 ? 'Espèces' : 'Crédit';
+                }
+                const amountColor = e.amount < 0 ? 'var(--danger)' : 'var(--success)';
+                const amountStr = formatCurrency(e.amount);
+                const customerDisplay = e.customer || (e.type === 'expense' ? '—' : e.type === 'capital' ? '—' : '');
                 return `
                     <tr>
-                        <td style="font-size:0.75rem;">${getShortDate(t.date)}</td>
-                        <td><span class="tag ${tagClass}">${tagLabel}</span> ${t.label}</td>
-                        <td>${escapeHtml(t.customer)}</td>
-                        <td style="font-size:0.8rem;color:var(--gray-500);">${escapeHtml(t.detail)}</td>
+                        <td style="font-size:0.75rem;">${getShortDate(e.date)}</td>
+                        <td><span class="tag ${tagClass}">${tagLabel}</span> ${typeLabel}</td>
+                        <td>${escapeHtml(customerDisplay)}</td>
+                        <td style="font-size:0.8rem;color:var(--gray-500);">${escapeHtml(e.detail)}</td>
                         <td style="text-align:right;font-weight:600;color:${amountColor};">${amountStr}</td>
                     </tr>
                 `;
@@ -2957,7 +3364,7 @@
             inventory: 'Inventaire <small>gérer le stock</small>',
             provider: 'Fournisseurs <small>achats & approvisionnement</small>',
             rapports: 'Rapports <small>analyse des ventes</small>',
-            accounting: 'Comptabilité <small>bénéfice & calculatrice</small>',
+            accounting: 'Comptabilité <small>bilan et résultats</small>',
             historique: 'Historique <small>toutes les transactions</small>'
         };
 
@@ -2972,7 +3379,9 @@
             if (view === 'caisse') { renderPosInventory();
                 renderPosCart();
                 renderCaisseTotals();
-                renderCaisseSalesList(); }
+                renderCaisseSalesList();
+                renderHolds();
+                updateChangeDisplay(); }
             if (view === 'credit') renderCreditList();
             if (view === 'provider') { renderProviderList();
                 renderPurchaseHistory(); }
@@ -3023,6 +3432,54 @@
             document.getElementById('quickAddModal').classList.remove('open');
             renderAll();
             navigateTo('inventory');
+        });
+
+        // ─── Expense ────────────────────────────────────────────────────
+        document.getElementById('expenseBtn').addEventListener('click', () => {
+            document.getElementById('expenseModal').classList.add('open');
+            document.getElementById('expenseDetails').focus();
+            // Set default date to today
+            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+        });
+        document.getElementById('expenseModalClose').addEventListener('click', () => document.getElementById('expenseModal')
+            .classList.remove('open'));
+        document.getElementById('expenseCancel').addEventListener('click', () => document.getElementById('expenseModal')
+            .classList.remove('open'));
+        document.getElementById('expenseModal').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const details = document.getElementById('expenseDetails').value.trim();
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const date = document.getElementById('expenseDate').value;
+            if (!details || isNaN(amount) || amount <= 0) {
+                showToast('Veuillez remplir tous les champs obligatoires.', 'error');
+                return;
+            }
+            addExpense({
+                details: details,
+                amount: amount,
+                date: date ? new Date(date).toISOString() : new Date().toISOString()
+            });
+            showToast(`Dépense de ${formatCurrency(amount)} enregistrée.`, 'success');
+            document.getElementById('expenseForm').reset();
+            document.getElementById('expenseModal').classList.remove('open');
+            renderAll();
+        });
+
+        // ─── Capital ────────────────────────────────────────────────────
+        document.getElementById('capitalAddBtn').addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('capitalInput').value);
+            if (isNaN(amount) || amount <= 0) {
+                showToast('Veuillez entrer un montant valide.', 'error');
+                return;
+            }
+            addCapital(amount);
+            document.getElementById('capitalInput').value = '';
+            renderAll();
+            showToast(`Capital de ${formatCurrency(amount)} ajouté.`, 'success');
         });
 
         // ─── Calculator ──────────────────────────────────────────────────
@@ -3177,6 +3634,7 @@
             if (confirm('Vider le panier?')) { cart = [];
                 renderPosCart();
                 renderPosInventory();
+                updateChangeDisplay();
                 showToast('Panier vidé.', 'success'); }
         });
 
@@ -3402,24 +3860,6 @@
             renderAccounting();
         });
 
-        // ─── Depot & Capital update ─────────────────────────────────────
-        document.getElementById('updateDepotBtn').addEventListener('click', function() {
-            const val = parseFloat(document.getElementById('inputDepot').value);
-            if (isNaN(val) || val < 0) { showToast('Valeur invalide.', 'error'); return; }
-            depot = val;
-            saveDepot();
-            renderAccounting();
-            showToast('Dépôt mis à jour.', 'success');
-        });
-        document.getElementById('updateCapitalBtn').addEventListener('click', function() {
-            const val = parseFloat(document.getElementById('inputCapital').value);
-            if (isNaN(val) || val < 0) { showToast('Valeur invalide.', 'error'); return; }
-            capital = val;
-            saveCapital();
-            renderAccounting();
-            showToast('Capital mis à jour.', 'success');
-        });
-
         // ─── Toast ──────────────────────────────────────────────────────
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
@@ -3449,6 +3889,7 @@
                 document.getElementById('quickAddModal').classList.remove('open');
                 document.getElementById('calculatorModal').classList.remove('open');
                 document.getElementById('partialPaymentModal').classList.remove('open');
+                document.getElementById('expenseModal').classList.remove('open');
             }
         });
 
@@ -3459,7 +3900,10 @@
         loadProviders();
         loadPurchases();
         loadShift();
-        loadDepotCapital();
+        loadCapital();
+        loadExpenses();
+        loadHolds();
+        loadHistory();
 
         if (items.length === 0) {
             addItem({ name: 'Souris Sans Fil', sku: 'SSF-001', price: 2999, cost_price: 1550, quantity: 12,
@@ -3482,8 +3926,9 @@
 
         navigateTo('dashboard');
 
-        console.log('✅ InventoryPro v7 loaded — ' + items.length + ' items, ' + sales.length + ' sales, ' + credits.length +
-            ' credits, ' + providers.length + ' providers, ' + purchases.length + ' purchases');
+        console.log('✅ InventoryPro v9 loaded — ' + items.length + ' items, ' + sales.length + ' sales, ' + credits.length +
+            ' credits, ' + providers.length + ' providers, ' + purchases.length + ' purchases, ' + expenses.length +
+            ' expenses, Capital: ' + capitalTotal + ', Holds: ' + holds.length);
     </script>
 </body>
     </html>
